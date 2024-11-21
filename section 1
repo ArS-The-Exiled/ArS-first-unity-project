@@ -1,1 +1,40 @@
+2024/11/21
+階段目標:地圖
 
+class map:
+{
+    int x;
+    int y;
+    int category;    //0:NA 1:wall 2:goal 3:door 4:switch 5:special
+    bool isObstacle;    
+    int status;        //0:NA 1:close 2:open
+}
+
+二維陣列:
+    1.宣告:
+        int map[,];    //逗號分隔維度
+    2.初始化:
+        map=new[*y長*,*x長*];
+        for迴圈
+
+想法:‵ㄅ2024/11/21
+階段目標:地圖
+
+class map:
+{
+    int x;
+    int y;
+    int category;    //0:NA 1:wall 2:goal 3:door 4:switch 5:special
+    bool isObstacle;    
+    int status;        //0:NA 1:close 2:open
+}
+
+二維陣列:
+    1.宣告:
+        int map[,];    //逗號分隔維度
+    2.初始化:
+        map=new[*y長*,*x長*];
+        for迴圈
+
+想法:
+    二維陣列
