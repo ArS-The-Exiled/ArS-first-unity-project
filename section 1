@@ -17,24 +17,99 @@ class map:
         map=new[*y長*,*x長*];
         for迴圈
 
-想法:‵ㄅ2024/11/21
-階段目標:地圖
+JSON檔:
+"width": 8,長
+"height": 6, 高   
+"unit" :2,單位(座標轉實際位置)
+"xi":0(初始座標)
+"yi":3,(初始座標y)
+"xit":-6.5,(初始位置X)
+"yit":0.5,(初始位置y)
 
-class map:
-{
-    int x;
-    int y;
-    int category;    //0:NA 1:wall 2:goal 3:door 4:switch 5:special
-    bool isObstacle;    
-    int status;        //0:NA 1:close 2:open
-}
+"category_i"
+[每格的x,y,category]
+(以右下角為0,0)
 
-二維陣列:
-    1.宣告:
-        int map[,];    //逗號分隔維度
-    2.初始化:
-        map=new[*y長*,*x長*];
-        for迴圈
 
-想法:
-    二維陣列
+----
+JSON相關:
+    1.import:
+        string filePath = Path.Combine(Application.streamingAssetsPath, $"Level1.json");    //using System.IO;
+        >Path.Combine(*string s1*,*string s2*): combine s1 and s2 as a new path;
+        >Application.streamingAssetsPath: a path name streamingAssests in unity/asset
+    
+    2.setting:
+        string jsonContent = File.ReadAllText(filePath);
+        >File.ReadAllText(*string s*): turn all data sorted in the file path *s* into a single string
+        
+        (**class MapData**)mapData = JsonUtility.FromJson<MapData>(jsonContent);
+        > (*class cl*) CL = JsonUtility.FromJson<*class cl*>(*string s*): put all data in st into CL as *cl* class; 
+
+---
+call a class in other script(namespace)
+    1.name space:
+
+        在"*被引用的腳本*"(A)最外層加上:namespace "*namespace name*"
+        在"*引用的腳本*"(B)上方引用:using "*namespace name*";
+
+        即可在B裡調用A的變數，函式。
+
+    **注意:**
+        1.A裡要被引用的變數函數都要為public 
+        2.A裡要被引用的class上方要加[System.Serializable]
+---
+class相關:
+    [System.Serializable]
+    public class GamerData    //class name
+    {
+        public int x;
+        public int y;
+        public float xt;
+        public float yt;
+        public int level;
+        public int status;
+
+        public GamerData(int xi,int yi,float xit,float yit)
+        {
+            x=xi;
+            y=yi;
+            xt=xit;
+            yt=yit;
+            status=0;
+        }
+
+        public void move(int dx,int dy,float unit)
+        {
+            x+=dx;
+            y+=dy;
+            xt+=dx*unit;
+            yt+=dy*unit;
+        }
+    }
+
+    public GamerData(int xi,int yi,float xit,float yit): 
+    >在創建新GamerData實例時， 該函式會運行一次以進行數據的初始化等功能，不用打類型，不用return(效果類似void)，名字要和class一致
+
+    >使用方法:
+    >GamerData GD= new GamerData(0,1,0.5f,3.5f);
+    >>GD.x=0
+    >>GD.y=1
+    >>GD.xt=0.5f;
+    >>GD.xt=3.5f;
+    >>GD.status=0;(這裡是0是因為GamerData()函式裡有status=0)
+
+    public void move(int dx,int dy,float unit)
+    >用*(GamerData)CL*.move(...)呼叫，和一般函式一樣
+
+    >使用方式:
+    >GD已向上面提到的初始化。
+    >GD.move(1,0,2);
+    >>GD.x=1 //0+1
+    >>GD.y=1 //1+0
+    >>GD.xt=2.5f //0.5+(1*2)
+    >>GD.yt=3.5f //0.5+(0*2)
+---
+scene:
+    1. using UnityEngine.SceneManagement;
+    2.切換時，會重設所有非static且未"禁止摧毀"的變數。
+    >禁止摧毀: DontDestroyOnLoad("gameObject");
