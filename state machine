@@ -25,6 +25,7 @@ public interface IState
     void Update();
     void Exit();
 }
+```
 
     2.controller:總控制腳本，包含'初始state'和'轉移函式'。繼承MonoBehavior,附加於GameObject上。
         ex:
