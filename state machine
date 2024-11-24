@@ -1,0 +1,34 @@
+state machine:
+
+概念:
+Gamer(Game Object)
+│   ├── StateMachineController.cs  <-- 控制狀態切換的主控制
+│   ├── IState.cs                 <-- 定義所有狀態類別共用的接口
+│   ├── WalkState.cs              <-- 走路狀態
+│   ├── TeleportState.cs          <-- 瞬移狀態
+│   └── IdleState.cs              <-- 空閒狀態
+
+預期目標:
+walk，teleport，interact三個型態
+    walk:正常移動
+    teleport:暫停時間，已鼠標選定目標位置來瞬移到該處
+    interact:互動，用來跑劇情之類的
+
+準備script:
+    1.IState:
+        interface:定義一種'格式'，繼承此類的腳本都需要遵照格式。
+            ex:   
+                ```cs
+                public interface IState
+                {
+                    void Enter();
+                    void Update();
+                    void Exit();
+                }
+                ```
+    2.controller:總控制腳本，包含'初始state'和'轉移函式'。繼承MonoBehavior,附加於GameObject上。
+        ex:
+            ```
+
+
+
