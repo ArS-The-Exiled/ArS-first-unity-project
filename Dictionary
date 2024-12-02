@@ -1,0 +1,14 @@
+ Dictionary:字典
+
+public Dictionary<int, List<"name of List">> "name of Dictionary" = new Dictionary<int, List<"name od List">>();
+
+// 創建門
+                    Door door = new Door(tile, group, status, doorGO);
+
+                    // 加入字典，若該 group 尚未存在，先初始化
+                    if (!doorGroups.ContainsKey(group))
+                    {
+                        doorGroups[group] = new List<Door>();
+                    }
+                    doorGroups[group].Add(door);
+
