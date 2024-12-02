@@ -1,0 +1,5 @@
+為什麼需要door.status
+因為要實作(玩家可以卡住門)
+
+status隨switch()改，若玩家在上面，先不set()
+等玩家離開，set()
