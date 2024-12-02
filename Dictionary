@@ -8,12 +8,8 @@ TValue (值)：對應於鍵的數據，可以是任何類型。
 1. Dict.Add(_key,_value)
 2. Dict[_key]=_value;
 
-
-
-
-
-
-
+搜索是否存在某個key
+bool Dict.ContainsKey(int "key to search");
 
 
 
