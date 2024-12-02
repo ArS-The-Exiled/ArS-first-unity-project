@@ -1,5 +1,22 @@
  Dictionary:字典
 
+Dictionary<TKey, TValue>
+
+TKey (鍵)：唯一標識，類似於索引，必須是唯一的。
+TValue (值)：對應於鍵的數據，可以是任何類型。
+
+1. Dict.Add(_key,_value)
+2. Dict[_key]=_value;
+
+
+
+
+
+
+
+
+
+
 public Dictionary<int, List<"name of List">> "name of Dictionary" = new Dictionary<int, List<"name od List">>();
 
 // 創建門
