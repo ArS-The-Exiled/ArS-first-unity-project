@@ -12,6 +12,7 @@ public class State_Con : MonoBehaviour//附在Gamer上
     public GameObject circle;
     public GameObject can;
     public GameObject cant;
+    public sprite_edit SE;
      void Awake()
     {
         DontDestroyOnLoad(gameObject);

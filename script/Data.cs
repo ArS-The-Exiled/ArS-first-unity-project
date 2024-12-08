@@ -19,7 +19,7 @@ namespace mapControllNS
         public door Door;
         public SwitchCl Sw;
         public botttomCl botttom;
-        public tile(map_con _mapCon,int _x,int _y,int _category,GameObject _GO=null)
+        public tile(map_con _mapCon,int _x,int _y,int _category=0 ,GameObject _GO=null)
         {
             mapCon=_mapCon;
             x=_x;
@@ -285,6 +285,7 @@ namespace mapControllNS
             myTile=_myTile;
             group=_group;
             bottomGO=Object.Instantiate(_GO, myTile.mapCon.get_position(myTile.x,myTile.y),Quaternion.identity);
+            if(bottomGO!=null)  Debug.Log("Instantiate bottom sucess");
             set();
         }
         public void check()

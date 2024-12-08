@@ -102,7 +102,7 @@ public class map_con : MonoBehaviour
                     switchGroups[sw.group].Add(sw);
                     */
                 }
-                else  if(category==4)
+                else  if(category==5)
                 {
                     map[i,j]=new tile(this,j,i,category);
                    
@@ -168,6 +168,15 @@ public class map_con : MonoBehaviour
         if(Input.GetKeyDown(KeyCode.Space))
         {
             complete_the_level();
+        }
+
+        if(Input.GetKeyDown(KeyCode.Alpha1))
+        {
+            DoorActive(1);
+        }
+        if(Input.GetKeyDown(KeyCode.Alpha2))
+        {
+            DoorActive(2);
         }
 
         if(Input.GetKeyDown(KeyCode.Tab))

@@ -11,6 +11,7 @@ public class walk_State : IState
     GameObject IGO=null;
     public map_con mapCon;
     public State_Con stateCon;
+    tile interact_tile;
     public char way='d';    
     public void Enter()
     {
@@ -19,6 +20,7 @@ public class walk_State : IState
 
     public walk_State(State_Con _stateCon,map_con _mapCon)
     {
+        way='d';
         stateCon=_stateCon;
         mapCon=_mapCon;
     }
@@ -50,12 +52,6 @@ public class walk_State : IState
         }  
         if(Input.GetKeyDown(KeyCode.F))
         {
-            if(mapCon.map[mapCon.gamerData.y,mapCon.gamerData.x].category==2)
-            {
-                mapCon.complete_the_level();
-            }
-            else
-            {
                 switch(way)
                 {
                     case 'u':try_to_interact(mapCon.gamerData.x,mapCon.gamerData.y+1); break;
@@ -63,14 +59,16 @@ public class walk_State : IState
                     case 'l':try_to_interact(mapCon.gamerData.x-1,mapCon.gamerData.y); break;
                     case 'r':try_to_interact(mapCon.gamerData.x+1,mapCon.gamerData.y); break;
                 }
-
-            }
         }    
     }
 
     void try_to_interact(int x,int y)
     {
         if(!check(x,y)) return;
+        if(mapCon.map[y,x].category==2)
+        {
+            mapCon.complete_the_level();
+        }
         if(mapCon.map[y,x].category==4)
         {
             mapCon.map[y,x].Sw.Switch();
@@ -90,9 +88,9 @@ public class walk_State : IState
     
     public void move(int dx,int dy)
     {
-    
-        int nx=mapCon.gamerData.x+dx;
-        int ny=mapCon.gamerData.y+dy;
+        int x=mapCon.gamerData.x,y=mapCon.gamerData.y;
+        int nx=x+dx,ny=y+dy;
+        
         
         if(!check(nx,ny))//場外(1類障礙)
         {
@@ -106,7 +104,8 @@ public class walk_State : IState
         }
         else 
         {
-            if(mapCon.map[ny,nx].category==4)//switch
+            tile start_tile=mapCon.map[y,x],target_tile=mapCon.map[ny,nx];
+            if(target_tile.category==4)//switch
             {
                 IGO=Object.Instantiate(interactGO,mapCon.get_position(nx,ny),Quaternion.identity);
             }
@@ -115,27 +114,31 @@ public class walk_State : IState
                 Object.Destroy(IGO);
                 IGO=null;
             }
-            //Debug.Log($"{mapCon.map[ny,nx].category},{mapCon.map[ny,nx].isObstacle}");
-            if(mapCon.map[ny,nx].isObstacle==0)
+            //Debug.Log($"{target_tile.category},{target_tile.isObstacle}");
+            if(target_tile.isObstacle==0)
             {
-                if(mapCon.map[ny,nx].category==5)
+                if(target_tile.category==5)
                 {
-                    mapCon.map[ny,nx].botttom.Switch();
+                    target_tile.botttom.Switch();
+                }
+                if(start_tile.category==5)
+                {
+                    start_tile.botttom.Switch();
                 }
                 mapCon.gamerData.move(dx,dy,mapCon.mapData.unit);
                 stateCon.gameObject.transform.position+=new Vector3(dx*mapCon.mapData.unit,dy*mapCon.mapData.unit,0);
                 //Debug.Log($"{mapCon.gamerData.x},{mapCon.gamerData.y}");
             }
-            else if(mapCon.map[ny,nx].isObstacle==2)
+            else if(target_tile.isObstacle==2)
             {
                 if(check(nx+dx,ny+dy))
                 {
                      if(mapCon.map[ny+dy,nx+dx].isObstacle==0)
                     {
-                        mapCon.map[ny,nx].GO.transform.position +=new Vector3(dx*mapCon.mapData.unit,dy*mapCon.mapData.unit,0);
+                        target_tile.GO.transform.position +=new Vector3(dx*mapCon.mapData.unit,dy*mapCon.mapData.unit,0);
                         
-                        mapCon.map[ny+dy,nx+dx].move_box(true,mapCon.map[ny,nx].GO);
-                        mapCon.map[ny,nx].move_box(false);
+                        mapCon.map[ny+dy,nx+dx].move_box(true,target_tile.GO);
+                        target_tile.move_box(false);
                 
                         mapCon.gamerData.move(dx,dy,mapCon.mapData.unit); 
                         stateCon.gameObject.transform.position+=new Vector3(dx*mapCon.mapData.unit,dy*mapCon.mapData.unit,0);

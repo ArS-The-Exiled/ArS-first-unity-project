@@ -138,8 +138,19 @@ public class teleport_State : IState
     }
     public void teleport(int nx, int ny)
     {
+        int x=mapCon.gamerData.x,y=mapCon.gamerData.y;
+        tile start_tile=mapCon.map[y,x],target_tile=mapCon.map[ny,nx];
         mapCon.gamerData.move( nx-mapCon.gamerData.x, ny-mapCon.gamerData.y,mapCon.mapData.unit);
         stateCon.gameObject.transform.position=mapCon.get_position(nx,ny);
+        
+           if(target_tile.category==5)
+            {
+                target_tile.botttom.Switch();
+            }
+            if(start_tile.category==5)
+            {
+                start_tile.botttom.Switch();
+            }
     }
 
     public void Exit()
